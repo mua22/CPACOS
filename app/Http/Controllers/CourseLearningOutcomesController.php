@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\CourseLearningOutcome;
 use Illuminate\Http\Request;
 use App\ProgramLearningOutcome;
 class CourseLearningOutcomesController extends Controller
@@ -10,10 +11,10 @@ class CourseLearningOutcomesController extends Controller
     public function index($course_id)
     {
         $course = Course::find($course_id);
-        $plos = ProgramLearningOutcome::all();
-        $page_title = "Course Learning Outcomes (clos)";
+        $clos = $course->clos;
+        $page_title = $course->title.": Course Learning Outcomes (clos)";
 
-        return view('clos.index')->with(compact('plos','page_title'));
+        return view('clos.index')->with(compact('clos','page_title','course'));
     }
 
     /**
@@ -21,11 +22,12 @@ class CourseLearningOutcomesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($course_id)
     {
-        $page_title = "Create New Program Learning Outcome (plos)";
+        $course = Course::find($course_id);
+        $page_title = "Create New CLO for ".$course->title;
 
-        return view('plos.create')->with(compact('page_title'));
+        return view('clos.create')->with(compact('page_title','course'));
     }
 
     /**
@@ -34,13 +36,14 @@ class CourseLearningOutcomesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($course_id,Request $request)
     {
-        $peo = new ProgramLearningOutcome();
-        $peo->title = $request->title;
-        $peo->save();
-        flash('PEO Created successfully')->success()->important();
-        return redirect(route('plos.index'));
+        $clo = new CourseLearningOutcome();
+        $clo->title = $request->title;
+        $clo->course_id = $course_id;
+        $clo->save();
+        flash('CLO Created successfully')->success()->important();
+        return redirect(route('clos.index',$course_id));
     }
 
     /**
@@ -62,8 +65,8 @@ class CourseLearningOutcomesController extends Controller
      */
     public function edit($id)
     {
-        $peo = ProgramLearningOutcome::find($id);
-        $page_title = "Edit ".$peo->order." Program Learning Outcome (plos)";
+        $clo = ProgramLearningOutcome::find($id);
+        $page_title = "Edit ".$clo->order." Program Learning Outcome (plos)";
 
         return view('plos.edit')->with(compact('peo','page_title'));
     }
@@ -77,10 +80,10 @@ class CourseLearningOutcomesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $peo = ProgramLearningOutcome::find($id);
-        $peo->title = $request->title;
-        $peo->save();
-        flash($peo->order.' updated successfully')->success()->important();
+        $clo = ProgramLearningOutcome::find($id);
+        $clo->title = $request->title;
+        $clo->save();
+        flash($clo->order.' updated successfully')->success()->important();
         return redirect(route('plos.index'));
     }
 
@@ -92,9 +95,10 @@ class CourseLearningOutcomesController extends Controller
      */
     public function destroy($id)
     {
-        $peo = ProgramLearningOutcome::find($id);
-        $peo->delete();
-        flash("PEO Deleted")->success()->important();
-        return redirect(route('plos.index'));
+        //$course = Course::find($course_id);
+        $clo = CourseLearningOutcome::find($id);
+        $clo->delete();
+        flash("CLO Deleted")->success()->important();
+        return redirect(route('clos.index',$clo->course_id));
     }
 }

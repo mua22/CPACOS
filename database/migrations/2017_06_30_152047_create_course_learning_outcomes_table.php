@@ -21,6 +21,13 @@ class CreateCourseLearningOutcomesTable extends Migration
             $table->integer('order')->default(0);
             $table->timestamps();
         });
+        Schema::create('assessment_course_learning_outcome', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('assessment_id')->unsigned();
+            $table->integer('course_learning_outcome_id')->unsigned();
+
+            //$table->primary(['assessment_id', 'course_learning_outcome_id']);
+        });
     }
 
     /**
@@ -30,6 +37,8 @@ class CreateCourseLearningOutcomesTable extends Migration
      */
     public function down()
     {
+
+        Schema::dropIfExists('assessment_course_learning_outcome');
         Schema::table('course_learning_outcomes', function (Blueprint $table) {
             $table->dropForeign(['course_id']);
         });

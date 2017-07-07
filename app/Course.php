@@ -19,4 +19,9 @@ class Course extends Model
     {
         return $this->belongsToMany('App\Student');
     }
+
+    public function getTitleAttribute($value)
+    {
+        return $this->code." ".$value;
+    }
 }

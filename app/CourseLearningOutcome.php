@@ -10,4 +10,9 @@ class CourseLearningOutcome extends Model
     {
         return 'CLO'.$value;
     }
+    public function assessments()
+    {
+        return $this->belongsToMany('App\Assessment');
+    }
+
 }

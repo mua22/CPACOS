@@ -99,6 +99,7 @@ class ProgramEducationalObjectivesController extends Controller
         $peo = ProgramEducationalObjective::find($id);
         $peo->delete();
         flash("PEO Deleted")->success()->important();
+        //flash("PEO Deleted")->overlay();
         return redirect(route('peos.index'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Assessment;
+use App\Course;
 use App\Mark;
 use Illuminate\Http\Request;
 
@@ -23,9 +24,11 @@ class AssessmentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($course_id)
     {
-        //
+        $page_title = 'Create New Assessment';
+        $course = Course::find($course_id);
+        return view('assessments.create')->with(compact('course','page_title'));
     }
 
     /**
@@ -34,9 +37,19 @@ class AssessmentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($course_id,Request $request)
     {
-        //
+        $course = Course::find($course_id);
+        $clos = $request->clos;
+        $assessment = new Assessment();
+        $assessment->course_id = $course_id;
+        $assessment->title = $request->title;
+        $assessment->type = $request->type;
+
+        $assessment->save();
+        $assessment->clos()->attach(array_keys($clos));
+        flash('Assessment for '.$course->title." Created Successfully")->success();
+        return redirect(route('courses.index'));
     }
 
     /**

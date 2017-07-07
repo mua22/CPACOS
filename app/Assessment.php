@@ -19,4 +19,8 @@ class Assessment extends Model
     {
         return $this->belongsTo('App\Course');
     }
+    public function clos()
+    {
+        return $this->belongsToMany('App\CourseLearningOutcome');
+    }
 }
