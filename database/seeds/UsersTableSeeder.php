@@ -13,8 +13,14 @@ class UsersTableSeeder extends Seeder
     {
         $admin = new User();
         $admin->email = 'musmanakram@ciitlahore.edu.pk';
-        $admin->password = bcrypt('cscomsats');
+        $admin->password = bcrypt('123456');
         $admin->name = 'Usman Akram';
+        $admin->save();
+
+        $admin = new User();
+        $admin->email = 'admin@admin.com';
+        $admin->password = bcrypt('admin');
+        $admin->name = 'Admin';
         $admin->save();
     }
 }
