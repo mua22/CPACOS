@@ -1,8 +1,9 @@
 <ul class="sidebar-menu">
     <li class="header">MAIN NAVIGATION</li>
     <li><a href="{{route('courses.index')}}"><i class="fa fa-book text-red"></i> <span>My Courses</span></a></li>
-    <li><a href="{{route('peos.index')}}"><i class="fa fa-book text-red"></i> <span>Program Educational Objectives</span></a></li>
-    <li><a href="{{route('plos.index')}}"><i class="fa fa-book text-red"></i> <span>Program Learning Outcomes</span></a></li>
+    <li class="header">ADMIN NAVIGATION</li>
+    <li><a href="{{route('university.index')}}"><i class="fa fa-book text-red"></i> <span>University Objectives</span></a></li>
+    <li><a href="{{route('programs.index')}}"><i class="fa fa-book text-red"></i> <span>Programs</span></a></li>
     {{--<li class="treeview">
         <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>

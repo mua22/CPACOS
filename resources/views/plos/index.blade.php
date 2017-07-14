@@ -1,29 +1,25 @@
-@extends('layouts.adminlte')
-
-@section('content')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">PEO</h3>
-            <a href="{{route('plos.create')}}" class="btn btn-sm btn-success pull-right">Create New</a>
-        </div>
-        <div class="box-body">
+@extends('programs.showmaster')
+@section('programcontent')
+    <a href="{{route('plos.create',$program->id)}}" class="btn btn-info pull-right">Create New PLO</a>
             <table class="table table-bordered table-striped" >
+                <?php $c=1;?>
                 @foreach($plos as $plo)
                     <tr>
                         <td>{{$plo->order}}</td>
                 <td>{{$plo->title}}</td>
-                    <td>
-                        <a href="{{route('plos.edit',$plo->id)}}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i>Edit</a>
-                        <form action="{{route('plos.destroy',$plo->id)}}" class="inline" method="POST">
+                    <td width="250px">
+                        <a href="{{route('plos.up',['plo_id'=>$plo->id,'program_id'=>$program->id])}}" class="btn btn-xs btn-info" @if($c==1)disabled="disabled"@endif><i class="fa fa-arrow-up"></i>Up</a>
+                        <a href="{{route('plos.down',['plo_id'=>$plo->id,'program_id'=>$program->id])}}" class="btn btn-xs btn-info" @if($c==count($plos))disabled="disabled"@endif><i class="fa fa-arrow-down"></i>Down</a>
+                        <a href="{{route('plos.edit',['plo_id'=>$plo->id,'program_id'=>$program->id])}}" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i>Edit</a>
+                        <form action="{{route('plos.destroy',['plo_id'=>$plo->id,'program_id'=>$program->id])}}" class="inline" method="POST">
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i>Delete</button>
+                            <button class="btn btn-xs btn-danger"><i class="fa fa-remove"></i>Delete</button>
                         </form>
                     </td>
                     </tr>
+                        <?php $c = $c+1;?>
                 @endforeach
             </table>
-        </div>
 
-    </div>
 @endsection

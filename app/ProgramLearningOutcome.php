@@ -2,12 +2,18 @@
 
 namespace App;
 
+use App\Traits\ProgramOrderMoveTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class ProgramLearningOutcome extends Model
 {
-    public function getOrderAttribute($value)
+    use ProgramOrderMoveTrait;
+    /*public function getOrderAttribute($value)
     {
-        return 'PLO'.$value;
+        return 'PEO'.$value;
+    }*/
+    public function program()
+    {
+        return $this->belongsTo('App\Program');
     }
 }

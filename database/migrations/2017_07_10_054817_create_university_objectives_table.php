@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProgramEducationalObjectivesTable extends Migration
+class CreateUniversityObjectivesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProgramEducationalObjectivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('program_educational_objectives', function (Blueprint $table) {
+        Schema::create('university_objectives', function (Blueprint $table) {
             $table->increments('id');
             $table->text('title');
             $table->integer('order')->default(0);
@@ -28,6 +28,6 @@ class CreateProgramEducationalObjectivesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('program_educational_objectives');
+        Schema::dropIfExists('university_objectives');
     }
 }

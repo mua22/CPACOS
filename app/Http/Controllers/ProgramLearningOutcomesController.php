@@ -5,14 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PLORequest;
 use Illuminate\Http\Request;
 use App\ProgramLearningOutcome;
+use App\Program;
 class ProgramLearningOutcomesController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index($program_id)
     {
-        $plos = ProgramLearningOutcome::all();
-        $page_title = "Program Learning Outcomes (plos)";
+        $program = Program::find($program_id);
+        $plos = ProgramLearningOutcome::where('program_id',$program_id)->orderBy('order')->get();
+        $page_title = "Program Learning outcomes (PLOS)";
 
-        return view('plos.index')->with(compact('plos','page_title'));
+        return view('plos.index')->with(compact('plos','page_title','program'));
     }
 
     /**
@@ -20,11 +27,12 @@ class ProgramLearningOutcomesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($program_id)
     {
-        $page_title = "Create New Program Learning Outcome (plos)";
+        $program = Program::find($program_id);
+        $page_title = "Create New Program Learning Outcomes (plos)";
 
-        return view('plos.create')->with(compact('page_title'));
+        return view('plos.create')->with(compact('page_title','program'));
     }
 
     /**
@@ -33,13 +41,14 @@ class ProgramLearningOutcomesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$program_id)
     {
-        $peo = new ProgramLearningOutcome();
-        $peo->title = $request->title;
-        $peo->save();
+        $plo = new ProgramLearningOutcome();
+        $plo->title = $request->title;
+        $plo->program_id = $program_id;
+        $plo->save();
         flash('PLO Created successfully')->success()->important();
-        return redirect(route('plos.index'));
+        return redirect(route('plos.index',$program_id));
     }
 
     /**
@@ -59,12 +68,13 @@ class ProgramLearningOutcomesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($program_id,$plo_id)
     {
-        $plo = ProgramLearningOutcome::find($id);
-        $page_title = "Edit ".$plo->order." Program Learning Outcome (plos)";
+        $program = Program::find($program_id);
+        $plo = ProgramLearningOutcome::find($plo_id);
+        $page_title = "Edit ".$plo->order." Program Learning Outcomes (plos)";
 
-        return view('plos.edit')->with(compact('plo','page_title'));
+        return view('plos.edit')->with(compact('plo','page_title','program'));
     }
 
     /**
@@ -74,14 +84,13 @@ class ProgramLearningOutcomesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PLORequest $request, $id)
+    public function update(Request $request, $program_id,$plo_id)
     {
-
-        $plo = ProgramLearningOutcome::find($id);
+        $plo = ProgramLearningOutcome::find($plo_id);
         $plo->title = $request->title;
         $plo->save();
         flash($plo->order.' updated successfully')->success()->important();
-        return redirect(route('plos.index'));
+        return redirect(route('plos.index',$program_id));
     }
 
     /**
@@ -90,11 +99,27 @@ class ProgramLearningOutcomesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($program_id,$plo_id)
     {
-        $plo = ProgramLearningOutcome::find($id);
+        $plo = ProgramLearningOutcome::find($plo_id);
         $plo->delete();
-        flash($plo->order." Deleted")->success()->important();
-        return redirect(route('plos.index'));
+        flash("plo Deleted")->success()->important();
+        //flash("plo Deleted")->overlay();
+        return redirect(route('plos.index',$program_id));
+    }
+
+    public function up($program_id,$plo_id)
+    {
+        $plo = ProgramLearningOutcome::find($plo_id);
+        $plo->up();
+        flash('Objective Moved Up New Numbers are assigned accordingly')->important();
+        return redirect(route('plos.index',$program_id));
+    }
+    public function down($program_id,$plo_id)
+    {
+        $plo = ProgramLearningOutcome::find($plo_id);
+        $plo->down();
+        flash('Objective Moved Down New Numbers are assigned accordingly')->important();
+        return redirect(route('plos.index',$program_id));
     }
 }

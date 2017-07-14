@@ -15,7 +15,7 @@ class CreateProgramLearningOutcomesTable extends Migration
     {
         Schema::create('program_learning_outcomes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
+            $table->text('title');
             $table->integer('order')->default(0);
             $table->timestamps();
         });

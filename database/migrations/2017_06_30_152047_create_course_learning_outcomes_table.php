@@ -15,7 +15,7 @@ class CreateCourseLearningOutcomesTable extends Migration
     {
         Schema::create('course_learning_outcomes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
+            $table->text('title');
             $table->integer('course_id')->unsigned();
             $table->foreign('course_id')->references('id')->on('courses');
             $table->integer('order')->default(0);

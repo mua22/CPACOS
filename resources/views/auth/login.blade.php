@@ -49,7 +49,7 @@
 
 
 
-                                <input id="password" type="password" class="form-control" name="password" required  placeholder="Password" value="cscomsats">
+                                <input id="password" type="password" class="form-control" name="password" required  placeholder="Password" value="123456">
 
                                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 
