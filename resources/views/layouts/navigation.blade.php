@@ -4,6 +4,7 @@
     <li class="header">ADMIN NAVIGATION</li>
     <li><a href="{{route('university.index')}}"><i class="fa fa-book text-red"></i> <span>University Objectives</span></a></li>
     <li><a href="{{route('programs.index')}}"><i class="fa fa-book text-red"></i> <span>Programs</span></a></li>
+    <li><a href="{{route('students.index')}}"><i class="fa fa-book text-red"></i> <span>Students</span></a></li>
     {{--<li class="treeview">
         <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
