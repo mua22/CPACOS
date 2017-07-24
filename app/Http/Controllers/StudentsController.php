@@ -17,7 +17,12 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        //
+
+        //create a variable and store all the students in it
+        //$students = Student::all();
+        $students = Student::orderBy('id','desc')->paginate(10);
+        return view('students.index')->withStudents($students);
+
     }
 
     /**
@@ -27,7 +32,9 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+        //displaying the create student form
+
+        return view('students.create');
     }
 
     /**
@@ -39,6 +46,20 @@ class StudentsController extends Controller
     public function store(Request $request)
     {
         //
+        //  dd($request);
+        //First validate the data
+
+        //Secondly store to the database
+        $student=new Student();
+
+        $student->registration_no=$request->registration_no;
+        $student->name=$request->name;
+
+        $student->save();
+
+        //redirect to another page
+      //  Session::flash('success','The student was successfully saved');
+        return redirect()->route('students.index');
     }
 
     /**
@@ -60,7 +81,10 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //displaying the form for updating student
+
+        $student=Student::find($id);
+        return view('students.edit',$student)->withStudent($student);
     }
 
     /**
@@ -72,7 +96,16 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $student=Student::find($id);
+        $student->registration_no=$request->registration_no;
+        $student->name=$request->name;
+
+        $student->save();
+
+        //redirect to another page
+        //  Session::flash('success','The student was successfully saved');
+        return redirect()->route('students.index');
     }
 
     /**
@@ -84,6 +117,12 @@ class StudentsController extends Controller
     public function destroy($id)
     {
         //
+        $student=Student::find($id);
+
+        $student->delete();
+
+        return redirect()->route('students.index');
+
     }
 
     public function uploadExcel(Request $request,$course_id)

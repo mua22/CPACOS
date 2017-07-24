@@ -17,7 +17,30 @@ Route::get('/', function () {
 
 
 
+
+
+
 Auth::routes();
+
+/*
+
+Route::get('/students/index', function () {
+    return view('students.index');
+})->name('students.index');
+
+Route::get('/students/create', function () {
+    return view('students.create');
+})->name('students.create');    */
+
+
+Route::get('students/create','StudentsController@create')->name('students.create');
+Route::post('students/store','StudentsController@store')->name('students.store');
+Route::get('students/index','StudentsController@index')->name('students.index');
+Route::get('students/{student}/edit','StudentsController@edit')->name('students.edit');
+Route::put('students/{student}','StudentsController@update')->name('students.update');
+Route::delete('students/{student}/delete','StudentsController@destroy')->name('students.delete');
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function () {
