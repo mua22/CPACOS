@@ -47,8 +47,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('courses', 'CoursesController');
     Route::get('/courses/{course_id}/assessments/create',['as'=>'assessments.create','uses'=>'AssessmentsController@create']);
     Route::post('/courses/{course_id}/assessments/create',['as'=>'assessments.store','uses'=>'AssessmentsController@store']);
-    Route::get('/courses/assessments/{id}',['as'=>'assessments.edit','uses'=>'AssessmentsController@edit']);
     Route::get('/courses/assessments/{id}/show',['as'=>'assessments.show','uses'=>'AssessmentsController@show']);
+    Route::get('/courses/assessments/{id}/edit',['as'=>'assessments.edit','uses'=>'AssessmentsController@edit']);
+    Route::put('/courses/assessments/{id}/update',['as'=>'assessments.update','uses'=>'AssessmentsController@update']);
+    Route::delete('/courses/assessments/{id}/delete',['as'=>'assessments.delete','uses'=>'AssessmentsController@destroy']);
+
+
     Route::post('/courses/assessments/massUpdate/{assessment_id}',['as'=>'assessments.massUpdate','uses'=>'AssessmentsController@massUpdate']);
     Route::post('/courses/{course_id}/uploadExcel',['as'=>'students.uploadExcel.course','uses'=>'StudentsController@uploadExcel']);
 
