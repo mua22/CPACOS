@@ -40,14 +40,14 @@ class AssessmentsController extends Controller
     public function store($course_id,Request $request)
     {
         $course = Course::find($course_id);
-        $clos = $request->clos;
+       // $clos = $request->clos;
         $assessment = new Assessment();
         $assessment->course_id = $course_id;
         $assessment->title = $request->title;
         $assessment->type = $request->type;
 
         $assessment->save();
-        $assessment->clos()->attach(array_keys($clos));
+       // $assessment->clos()->attach(array_keys($clos));
         flash('Assessment for '.$course->title." Created Successfully")->success();
         return redirect(route('courses.index'));
     }
@@ -79,7 +79,16 @@ class AssessmentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //render the view for assessment edit
+      //  $course = Course::find($course_id);
+       // $page_title = 'Edit Assessment';
+        $assessment=Assessment::find($id);
+        $page_title = 'Edit Assessment';
+        return view ('assessments.assessmentedit')->with(compact('assessment','page_title'));
+
+      //  $course = Course::find($id);
+       // return view('assessments.create')->with(compact('course','page_title'));
+
     }
 
     /**
@@ -91,7 +100,21 @@ class AssessmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+      //  $course= Course::find($id);
+        $assessment = Assessment::find($id);
+        $assessment->course_id =$assessment->course_id;
+        $assessment->title = $request->title;
+        $assessment->type = $request->type;
+        $assessment->save();
+
+        return view('assessments.updatedsuccess');
+
+        //return  view('courses.assessments')->withCourse($course);
+      //  return view('courses.assessments')->withCourse($course);
+         //return view('assessments.show')->withAssessment($assessment);
+
     }
 
     /**
@@ -102,7 +125,13 @@ class AssessmentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $assessment= Assessment::find($id);
+      //  $course= Course::find($id);
+
+        //$assessment->detach($course);
+        $assessment->delete();
+
+        return view('assessments.deletesuccess');
     }
 
     public function massUpdate(Request $request,$assessment_id)

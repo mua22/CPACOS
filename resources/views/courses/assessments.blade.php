@@ -13,7 +13,7 @@
                     <th>Title</th>
                     <th>Type</th>
 
-                    <th>Actions</th>
+                    <th style="text-justify: auto">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,7 +22,15 @@
                     <tr>
                         <td><a href="{{route('assessments.show',$assessment->id)}}">{{$assessment->title}}</a></td>
                         <td>{{$assessment->type}}</td>
-                        <td><a href="{{route('assessments.edit',$assessment->id)}}" class="btn btn-sm btn-info">Edit</a></td>
+                        <td><a href="{{route('assessments.edit',$assessment->id,$course->id)}}" class="btn btn-sm btn-info">Edit</a>
+                         <!--   <a style="margin-left: 10px;" href="{{route('assessments.edit',$assessment->id)}}" class="btn btn-sm btn-danger">Delete</a>-->
+                            <form action="{{route('assessments.delete',$assessment->id)}}" class="inline" method="POST">
+                                {{csrf_field()}}
+                                {{method_field('DELETE')}}
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+
+                        </td>
                     </tr>
                 @endforeach
 
